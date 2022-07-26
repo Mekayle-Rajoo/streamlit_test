@@ -8,7 +8,7 @@ def collab(movie1,movie2, movie3, min_year):
 
     train_data = pd.read_csv('resources/data/streamlit_ratings.csv')
     movies = pd.read_csv('resources/data/streamlit_movies.csv')
-    unpickled_model=pickle.load(open('resources/models/SVD.pkl', 'rb'))
+    unpickled_model=pickle.load(open('resources/models/CW3_SVD.pkl', 'rb'))
 
 
     
