@@ -28,7 +28,8 @@ import numpy as np
 from utils.data_loader import load_movie_titles
 from recommenders.content_based import content_model
 from recommenders.background import set_bg_hack_url
-from recommenders.streamlitfun import collab
+#from recommenders.streamlitfun import collab
+from recommenders.collaborative_based import collab_model
 
 # Data Loading
 movies = pd.read_csv('resources/data/movies27000.csv')
@@ -93,7 +94,7 @@ def main():
                 try:
                 
                     with st.spinner('Fetching movies ...'):
-                        top_recommendations = collab(movie_1,movie_2, movie_3, 1990)
+                        top_recommendations = collab_model(movie_1,movie_2, movie_3)
                     st.title("Users with similar taste also enjoyed:")
                     st.subheader("")
                     for i,j in enumerate(top_recommendations):
