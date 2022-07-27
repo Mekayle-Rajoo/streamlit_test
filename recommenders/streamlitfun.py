@@ -7,7 +7,7 @@ def collab(movie1,movie2, movie3, min_year):
     import pickle
 
     train_data = pd.read_csv('resources/data/streamlit_ratings.csv')
-    movies = pd.read_csv('resources/data/streamlit_movies.csv')
+    movies = pd.read_csv('resources/data/movies27000.csv')
     unpickled_model=pickle.load(open('resources/models/CW3_SVD.pkl', 'rb'))
 
 
@@ -39,7 +39,7 @@ def collab(movie1,movie2, movie3, min_year):
              
     bestmatched = list(set(bestmatched))
     
-    titles = movies[movies["movieId"].isin(bestmatched) & (movies["year"]>min_year-1)][["title","imdblinks", "image"]].reset_index()
+    titles = movies[movies["movieId"].isin(bestmatched) & (movies["year"]>min_year-1)][["title","link", "image"]].reset_index()
     
     if len(titles)>10:
         titles =titles.sample(n=10).reset_index()

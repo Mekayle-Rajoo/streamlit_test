@@ -36,10 +36,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from numpy import load
 
 # Importing data
-movies = pd.read_csv('resources/data/content_data.csv')
-ratings = pd.read_csv('resources/data/ratings.csv')
-movies_info = pd.read_csv('resources/data/movieimages.csv')
-#cosine_sim = load('resources/data/cosine_sim.npy')
+movies = pd.read_csv('resources/data/movies27000.csv')
+
 movies.dropna(inplace=True)
 
 def data_preprocessing(subset_size):
@@ -67,7 +65,7 @@ def data_preprocessing(subset_size):
 # 
 # 
 
-data = data_preprocessing(24860)
+data = data_preprocessing(27000)
 # Instantiating and generating the count matrix
 count_vec = CountVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
 count_matrix = count_vec.fit_transform(data['combined_features'])
@@ -125,4 +123,4 @@ def content_model(movie_list,top_n=10):
     for i in top_indexes[:top_n]:
         recommended_movies.append(list(movies['title'])[i])
     
-    return movies_info[movies_info["title"].isin(recommended_movies)].reset_index()
+    return movies[movies["title"].isin(recommended_movies)].reset_index()

@@ -26,22 +26,13 @@ import numpy as np
 
 # Custom Libraries
 from utils.data_loader import load_movie_titles
-from recommenders.collaborative_based import collab_model
 from recommenders.content_based import content_model
 from recommenders.background import set_bg_hack_url
 from recommenders.streamlitfun import collab
 
 # Data Loading
-movies = pd.read_csv('resources/data/streamlit_movies.csv')
+movies = pd.read_csv('resources/data/movies27000.csv')
 train_data = pd.read_csv('resources/data/streamlit_ratings.csv')
-unpickled_model = joblib.load(open("resources/models/SVD.pkl","rb"))
-
-
-#To save the session state to enable nested buttons:
-def callback():
-    st.session_state.button_clicked = True
-    
-
 
 
 # App declaration
@@ -63,7 +54,7 @@ def main():
     page_selection = st.sidebar.selectbox("Choose Option", page_options)
     if page_selection == "Recommender System":
         # Header contents
-        st.write('# Movie Recommender Engine')
+        st.markdown('# Movie Recommender Engine')
         st.write('### EXPLORE Data Science Academy Unsupervised Predict')
         st.image("resources/moviesgif.gif")
         # Recommender System algorithm selection
@@ -73,31 +64,38 @@ def main():
 
         # User-based preferences
         st.write('### Enter Your Three Favorite Movies')
-        movie_1 = st.selectbox('Fisrt Option',movies["title"][0:2000])
-        movie_2 = st.selectbox('Second Option',movies["title"][2001:4000])
-        movie_3 = st.selectbox('Third Option',movies["title"][4001:6000])
+        movie_1 = st.selectbox('First Option',movies["title"][14930:15200])
+        movie_2 = st.selectbox('Second Option',movies["title"][25055:25255])
+        movie_3 = st.selectbox('Third Option',movies["title"][21100:21200])
         fav_movies = [movie_1,movie_2,movie_3]
 
         # Perform top-10 movie recommendation generation
         if sys == 'Content Based Filtering':
             if st.button("Recommend"):
                 
-                with st.spinner('Fetching movies...'):
-                    top_recommendations = content_model(movie_list=fav_movies,
-                                                        top_n=10)
-                st.title("Users with similar taste also enjoyed:")
-                st.subheader("")
-                for i in range(10):
-                    st.image(top_recommendations["image"][i], width = 150)
-                    st.subheader(top_recommendations["title"][i])
-                    st.subheader(top_recommendations["imdblinks"][i])
-                    st.subheader(" ")
-                    st.subheader(" ")
+                try:
+                
+                    with st.spinner('Fetching movies...'):
+                        top_recommendations = content_model(movie_list=fav_movies,
+                                                            top_n=10)
+                    st.title("Here are some similar movies:")
+                    st.subheader("")
+                    for i in range(10):
+                        st.image(top_recommendations["image"][i], width = 150)
+                        st.subheader(top_recommendations["title"][i])
+                        st.subheader(top_recommendations["link"][i])
+                        st.subheader(" ")
+                        st.subheader(" ")
+                except:
+                    st.error("Oops! Looks like this algorithm does't work.\
+                              We'll need to fix it!")
                 
 
 
         if sys == 'Collaborative Based Filtering':
             if st.button("Recommend"):
+                
+                
                 
                 with st.spinner('Fetching movies ...'):
                     top_recommendations = collab(movie_1,movie_2, movie_3, 1990)
@@ -106,9 +104,11 @@ def main():
                 for i in range(10):
                     st.image(top_recommendations["image"][i], width = 150)
                     st.subheader(top_recommendations["title"][i])
-                    st.subheader(top_recommendations["imdblinks"][i])
+                    st.subheader(top_recommendations["link"][i])
                     st.subheader(" ")
                     st.subheader(" ")
+                        
+                
                 
 
     # -------------------------------------------------------------------
