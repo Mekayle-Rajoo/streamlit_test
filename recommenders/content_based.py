@@ -37,7 +37,9 @@ from numpy import load
 
 # Importing data
 movies = pd.read_csv('resources/data/movies27000.csv')
-
+ratings = pd.read_csv('resources/data/ratings.csv')
+movies_info = pd.read_csv('resources/data/movieimages.csv')
+#cosine_sim = load('resources/data/cosine_sim.npy')
 movies.dropna(inplace=True)
 
 def data_preprocessing(subset_size):
@@ -123,5 +125,4 @@ def content_model(movie_list,top_n=10):
     for i in top_indexes[:top_n]:
         recommended_movies.append(list(movies['title'])[i])
     
-    titles = movies[movies["title"].isin(recommended_movies)].reset_index()
-    return list(titles["title"])
+    return movies[movies["title"].isin(recommended_movies)].reset_index()

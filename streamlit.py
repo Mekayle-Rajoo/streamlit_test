@@ -27,13 +27,13 @@ import numpy as np
 # Custom Libraries
 from utils.data_loader import load_movie_titles
 from recommenders.content_based import content_model
-from recommenders.background import set_bg_hack_url
-#from recommenders.streamlitfun import collab
 from recommenders.collaborative_based import collab_model
+from recommenders.background import set_bg_hack_url
 
 # Data Loading
 movies = pd.read_csv('resources/data/movies27000.csv')
 train_data = pd.read_csv('resources/data/streamlit_ratings.csv')
+#unpickled_model = joblib.load(open("resources/models/SVD.pkl","rb"))
 
 
 # App declaration
@@ -80,8 +80,13 @@ def main():
                         top_recommendations = content_model(movie_list=fav_movies,
                                                             top_n=10)
                     st.title("Here are some similar movies:")
-                    for i,j in enumerate(top_recommendations):
-                        st.subheader(str(i+1)+'. '+j)
+                    st.subheader("")
+                    for i in range(10):
+                        st.image(top_recommendations["image"][i], width = 150)
+                        st.subheader(top_recommendations["title"][i])
+                        st.subheader(top_recommendations["link"][i])
+                        st.subheader(" ")
+                        st.subheader(" ")
                 except:
                     st.error("Oops! Looks like this algorithm does't work.\
                               We'll need to fix it!")
@@ -97,14 +102,16 @@ def main():
                         top_recommendations = collab_model(movie_1,movie_2, movie_3)
                     st.title("Users with similar taste also enjoyed:")
                     st.subheader("")
-                    for i,j in enumerate(top_recommendations):
-                        st.subheader(str(i+1)+'. '+j)
+                    for i in range(10):
+                        st.image(top_recommendations["image"][i], width = 150)
+                        st.subheader(top_recommendations["title"][i])
+                        st.subheader(top_recommendations["link"][i])
+                        st.subheader(" ")
+                        st.subheader(" ")
                         
                 except:
                     st.error("Oops! Looks like this algorithm does't work.\
                               We'll need to fix it!")
-                        
-                
                 
 
     # -------------------------------------------------------------------
