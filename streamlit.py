@@ -79,13 +79,8 @@ def main():
                         top_recommendations = content_model(movie_list=fav_movies,
                                                             top_n=10)
                     st.title("Here are some similar movies:")
-                    st.subheader("")
-                    for i in range(10):
-                        st.image(top_recommendations["image"][i], width = 150)
-                        st.subheader(top_recommendations["title"][i])
-                        st.subheader(top_recommendations["link"][i])
-                        st.subheader(" ")
-                        st.subheader(" ")
+                    for i,j in enumerate(top_recommendations):
+                        st.subheader(str(i+1)+'. '+j)
                 except:
                     st.error("Oops! Looks like this algorithm does't work.\
                               We'll need to fix it!")
@@ -95,18 +90,18 @@ def main():
         if sys == 'Collaborative Based Filtering':
             if st.button("Recommend"):
                 
+                try:
                 
-                
-                with st.spinner('Fetching movies ...'):
-                    top_recommendations = collab(movie_1,movie_2, movie_3, 1990)
-                st.title("Users with similar taste also enjoyed:")
-                st.subheader("")
-                for i in range(10):
-                    st.image(top_recommendations["image"][i], width = 150)
-                    st.subheader(top_recommendations["title"][i])
-                    st.subheader(top_recommendations["link"][i])
-                    st.subheader(" ")
-                    st.subheader(" ")
+                    with st.spinner('Fetching movies ...'):
+                        top_recommendations = collab(movie_1,movie_2, movie_3, 1990)
+                    st.title("Users with similar taste also enjoyed:")
+                    st.subheader("")
+                    for i,j in enumerate(top_recommendations):
+                        st.subheader(str(i+1)+'. '+j)
+                        
+                except:
+                    st.error("Oops! Looks like this algorithm does't work.\
+                              We'll need to fix it!")
                         
                 
                 

@@ -123,4 +123,5 @@ def content_model(movie_list,top_n=10):
     for i in top_indexes[:top_n]:
         recommended_movies.append(list(movies['title'])[i])
     
-    return movies[movies["title"].isin(recommended_movies)].reset_index()
+    titles = movies[movies["title"].isin(recommended_movies)].reset_index()
+    return list(titles["title"])
