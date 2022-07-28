@@ -45,4 +45,4 @@ def collab_model(movie1,movie2, movie3, min_year=1800):
         titles =titles.sample(n=10).reset_index()
 
 
-    return titles
+    return list(titles["title"])
